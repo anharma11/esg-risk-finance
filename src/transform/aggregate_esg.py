@@ -36,7 +36,7 @@ def aggregate_esg(raw: pd.DataFrame) -> pd.DataFrame:
     raw = raw.sort_values(["indicator", "year"]).copy()
     raw["norm"] = (
         raw.groupby(["indicator", "year"], group_keys=False)
-           .apply(_normalize, include_groups=False)
+           .apply(_normalize)
            .to_numpy()  # detach index — avoids MultiIndex alignment issues in pandas 3.x
     )
 
