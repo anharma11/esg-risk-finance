@@ -37,6 +37,7 @@ def aggregate_esg(raw: pd.DataFrame) -> pd.DataFrame:
     raw["norm"] = (
         raw.groupby(["indicator", "year"], group_keys=False)
            .apply(_normalize, include_groups=False)
+           .to_numpy()  # detach index — avoids MultiIndex alignment issues in pandas 3.x
     )
 
     pillar_scores = (
