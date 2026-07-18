@@ -1,0 +1,33 @@
+resources:
+  jobs:
+    esg_risk_workflow:
+      name: ESG Risk Daily Workflow
+      email_notifications:
+        on_failure:
+          - "{email}"
+      timeout_seconds: 7200
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: America/New_York
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: ingest
+          spark_python_task:
+            python_file: "{workspace_path}/risk_finance/scripts/run_ingest.py"
+            source: WORKSPACE
+          existing_cluster_id: "{cluster_id}"
+          timeout_seconds: 3600
+
+        - task_key: transform
+          depends_on:
+            - task_key: ingest
+          spark_python_task:
+            python_file: "{workspace_path}/risk_finance/scripts/run_transform.py"
+            source: WORKSPACE
+          existing_cluster_id: "{cluster_id}"
+          timeout_seconds: 1800
+
+      tags:
+        project: esg_risk_finance
+      queue:
+        enabled: true

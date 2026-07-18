@@ -1,0 +1,9 @@
+uc:
+  catalog:     prd_datascience_ifcwbcpm
+  schema:      risk_monitoring_innov_proj
+  volume_path: /Volumes/prd_datascience_ifcwbcpm/risk_monitoring_innov_proj/api_tests_data/Risk_Analysis
+
+ingest:
+  start_year: 2018
+  end_year:   2024
+  skip_ieg:   false
