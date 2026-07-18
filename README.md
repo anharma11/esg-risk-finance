@@ -4,6 +4,12 @@ Automated pipeline that pulls sovereign ESG indicators, WBG lending records, and
 
 ![ESG Risk Dashboard](output/dashboard.png)
 
+**[📊 Interactive Charts](https://htmlpreview.github.io/?https://github.com/anharma11/esg-risk-finance/blob/main/charts/esg_risk_charts.html)** — ESG pillar scores, lending exposure, and project success rate analysis (hover, zoom, filter)
+
+**[📓 Analysis Notebook](esg_risk_analysis.ipynb)** — full pipeline: install → ingest → transform → write → visualize
+
+> 📊 [Open interactive charts](https://htmlpreview.github.io/?https://github.com/anharma11/esg-risk-finance/blob/main/New%20Notebook%202026-07-18%2016_23_08%20(1).html)
+
 ---
 
 ## What it produces

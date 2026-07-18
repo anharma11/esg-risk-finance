@@ -18,8 +18,12 @@ dist/
 build/
 .eggs/
 
-# Output data
+# Output data — track images but not CSVs
 output/
+!output/*.png
+
+# charts/ — track interactive HTML charts
+# (charts/ is not ignored)
 
 # Build artifacts
 dist/
