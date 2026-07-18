@@ -65,13 +65,16 @@ def build_master(
     esg:     pd.DataFrame,
     lending: pd.DataFrame,
     success: pd.DataFrame,
-    outdir:  Path,
-) -> None:
-    """Left-join ESG scores with lending and IEG success, write master CSV.
+    outdir:  Path | None = None,
+) -> pd.DataFrame:
+    """Left-join ESG scores with lending and IEG success.
 
     Country names are fuzzy-matched against the ESG canonical list so
     abbreviations, transliterations, and minor spelling differences all resolve
     without a hand-maintained fixes dictionary.
+
+    Returns the master DataFrame. If outdir is given, also writes
+    esg_lending_master.csv there.
     """
     log("== Building joined master table ==")
     master = esg.copy()
@@ -126,17 +129,18 @@ def build_master(
         )
 
     master = master.drop(columns=["join_key"])
-    master.to_csv(outdir / "esg_lending_master.csv", index=False)
-    log(f"  esg_lending_master.csv: {len(master):,} rows")
+    if outdir is not None:
+        master.to_csv(outdir / "esg_lending_master.csv", index=False)
+    log(f"  esg_lending_master: {len(master):,} rows")
 
     # Sanity preview — top borrowers in the latest year with both ESG + lending
     if "lending_amount" not in master.columns:
         log("  (no lending data; skipping preview)")
-        return
+        return master
 
     both = master.dropna(subset=["esg_score", "lending_amount"])
     if both.empty:
-        return
+        return master
 
     latest  = both["year"].max()
     preview = (
@@ -147,3 +151,4 @@ def build_master(
     )
     log(f"\nTop 10 borrowers by new commitments, FY{latest}:")
     log(preview.to_string(index=False))
+    return master

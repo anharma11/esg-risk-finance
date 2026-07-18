@@ -13,7 +13,6 @@ Usage (Databricks notebook):
 from __future__ import annotations
 
 from pathlib import Path
-import tempfile
 import pandas as pd
 import yaml
 
@@ -85,9 +84,7 @@ def run(spark) -> None:
 
     # --- Join into master table ---
     print("\n== Building master table ==")
-    _tmp = Path(tempfile.mkdtemp())
-    build_master(esg, lending, success, _tmp)
-    master = pd.read_csv(_tmp / "esg_lending_master.csv")
+    master = build_master(esg, lending, success)
 
     # --- Write aggregated tables ---
     print("\n== Writing aggregated tables ==")
