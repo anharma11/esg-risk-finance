@@ -89,13 +89,20 @@ def _fetch_all_indicators(start: int, end: int) -> pd.DataFrame:
     return raw
 
 
-def fetch_esg_raw(outdir: Path) -> pd.DataFrame:
+def fetch_esg_raw(
+    outdir: Path,
+    start: int | None = None,
+    end: int | None = None,
+) -> pd.DataFrame:
     """BRONZE: pull raw indicator values for all countries, write esg.csv.
 
-    Reads start/end year from src/config.yaml.
+    Reads start/end year from src/config.yaml unless overridden by
+    the ``start`` / ``end`` arguments.
     Returns one row per country-year-indicator.
     """
-    start, end = _ingest_years()
+    cfg_start, cfg_end = _ingest_years()
+    start = start if start is not None else cfg_start
+    end   = end   if end   is not None else cfg_end
     log("== Dataset 1: Sovereign ESG indicators (bronze) ==")
     raw = _fetch_all_indicators(start, end)
     outdir.mkdir(parents=True, exist_ok=True)

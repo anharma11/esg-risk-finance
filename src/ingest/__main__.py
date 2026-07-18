@@ -33,8 +33,10 @@ from .lending import fetch_lending_raw
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--start",    type=int, default=2000)
-    ap.add_argument("--end",      type=int, default=pd.Timestamp.now().year)
+    ap.add_argument("--start",    type=int, default=None,
+                    help="override config start_year")
+    ap.add_argument("--end",      type=int, default=None,
+                    help="override config end_year")
     ap.add_argument("--outdir",   default="output")
     ap.add_argument("--skip-ieg", action="store_true",
                     help="skip Dataset 3 (IEG project ratings)")
@@ -43,7 +45,7 @@ def main() -> None:
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    fetch_esg_raw(outdir)
+    fetch_esg_raw(outdir, start=args.start, end=args.end)
     fetch_lending_raw(outdir)
     if not args.skip_ieg:
         fetch_ieg_raw(outdir)
