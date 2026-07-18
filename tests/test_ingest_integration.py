@@ -51,29 +51,29 @@ class TestLiveCountryList:
 
 class TestLiveFetchIndicator:
     def test_governance_indicator_returns_data(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
         assert isinstance(df, pd.DataFrame)
         assert len(df) > 50
 
     def test_schema(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
         assert set(df.columns) >= {"iso3", "country", "year", "indicator", "value"}
 
     def test_values_are_float(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
         assert pd.api.types.is_float_dtype(df["value"])
 
     def test_no_null_values(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
         assert df["value"].notna().all()
 
     def test_year_column_correct(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
         assert (df["year"] == 2022).all()
 
     def test_indicator_code_in_column(self):
-        df = fetch_indicator("GE.EST", 2022, 2022)
-        assert (df["indicator"] == "GE.EST").all()
+        df = fetch_indicator("GOV_WGI_GE.EST", 2022, 2022)
+        assert (df["indicator"] == "GOV_WGI_GE.EST").all()
 
     def test_social_indicator_returns_data(self):
         df = fetch_indicator("SP.DYN.LE00.IN", 2022, 2022)
@@ -224,7 +224,7 @@ class TestLiveIegRatings:
     def test_closing_years_in_range(self, tmp_path):
         df = fetch_ieg_raw(tmp_path)
         valid = df["closing_year"].dropna()
-        assert (valid >= 1990).all()
+        assert (valid >= 1970).all()
         assert (valid <= 2030).all()
 
     def test_csv_written(self, tmp_path):

@@ -69,6 +69,7 @@ def fetch_lending_raw(outdir: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
     loans = pd.concat(frames, ignore_index=True)
+    outdir.mkdir(parents=True, exist_ok=True)
     loans.to_csv(outdir / "loans.csv", index=False)
     log(f"  loans.csv: {len(loans):,} rows\n")
     return loans

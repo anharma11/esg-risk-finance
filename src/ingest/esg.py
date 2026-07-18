@@ -98,6 +98,7 @@ def fetch_esg_raw(outdir: Path) -> pd.DataFrame:
     start, end = _ingest_years()
     log("== Dataset 1: Sovereign ESG indicators (bronze) ==")
     raw = _fetch_all_indicators(start, end)
+    outdir.mkdir(parents=True, exist_ok=True)
     raw.to_csv(outdir / "esg.csv", index=False)
     log(f"  esg.csv: {len(raw):,} rows\n")
     return raw

@@ -48,6 +48,7 @@ def fetch_ieg_raw(outdir: Path) -> pd.DataFrame:
         ieg["outcome_rating"].str.lower().isin(SUCCESS_RATINGS).astype(int)
     )
 
+    outdir.mkdir(parents=True, exist_ok=True)
     ieg.to_csv(outdir / "ratings.csv", index=False)
     log(f"  ratings.csv: {len(ieg):,} projects\n")
     return ieg

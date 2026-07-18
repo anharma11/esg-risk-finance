@@ -130,6 +130,7 @@ def build_master(
 
     master = master.drop(columns=["join_key"])
     if outdir is not None:
+        outdir.mkdir(parents=True, exist_ok=True)
         master.to_csv(outdir / "esg_lending_master.csv", index=False)
     log(f"  esg_lending_master: {len(master):,} rows")
 
