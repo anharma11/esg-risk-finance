@@ -9,15 +9,6 @@ IDs, and IEG success-rating vocabulary.
 
 WB_API = "https://api.worldbank.org/v2"
 
-# Source IDs for WB indicators that do NOT live in source 2 (WDI).
-# WGI indicators (GE, RL, CC, PV) are only in source 3.
-INDICATOR_SOURCE: dict[str, int] = {
-    "GE.EST": 3,
-    "RL.EST": 3,
-    "CC.EST": 3,
-    "PV.EST": 3,
-}
-
 # WBG Finances One data API (replaced the retired Socrata platform).
 # Addressed with (datasetId, resourceId), paged via top/skip, max 1000 rows/page.
 FONE_API = "https://datacatalogapi.worldbank.org/dexapps/fone/api/apiservice"
@@ -29,10 +20,11 @@ FONE_API = "https://datacatalogapi.worldbank.org/dexapps/fone/api/apiservice"
 
 ESG_INDICATORS: dict[str, dict[str, tuple[str, int]]] = {
     "governance": {
-        "GE.EST": ("Government Effectiveness (estimate)", +1),
-        "RL.EST": ("Rule of Law (estimate)", +1),
-        "CC.EST": ("Control of Corruption (estimate)", +1),
-        "PV.EST": ("Political Stability / Absence of Violence (estimate)", +1),
+        # WGI codes were renamed with GOV_WGI_ prefix (old GE.EST etc. archived)
+        "GOV_WGI_GE.EST": ("Government Effectiveness (estimate)", +1),
+        "GOV_WGI_RL.EST": ("Rule of Law (estimate)", +1),
+        "GOV_WGI_CC.EST": ("Control of Corruption (estimate)", +1),
+        "GOV_WGI_PV.EST": ("Political Stability / Absence of Violence (estimate)", +1),
     },
     "social": {
         "SI.POV.DDAY":    ("Poverty headcount ratio at $2.15/day (%)", -1),
