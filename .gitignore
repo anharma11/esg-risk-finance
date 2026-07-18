@@ -21,7 +21,10 @@ build/
 # Output data
 output/
 
-# IDE
+# Build artifacts
+dist/
+build/
+*.egg-info/
 .vscode/
 .idea/
 
