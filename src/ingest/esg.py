@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .config import ESG_INDICATORS, WB_API
+from .config import ESG_INDICATORS, INDICATOR_SOURCE, WB_API
 from .http import log, wb_get
 
 _CONFIG_PATH = Path(__file__).parent.parent / "config.yaml"
@@ -43,11 +43,15 @@ def fetch_country_list() -> pd.DataFrame:
 def fetch_indicator(code: str, start: int, end: int) -> pd.DataFrame:
     """Pull one indicator for all countries over [start, end]."""
     rows, page = [], 1
+    source = INDICATOR_SOURCE.get(code)
     while True:
+        params: dict = {"format": "json", "per_page": 20000, "page": page,
+                        "date": f"{start}:{end}"}
+        if source is not None:
+            params["source"] = source
         data = wb_get(
             f"{WB_API}/country/all/indicator/{code}",
-            {"format": "json", "per_page": 20000, "page": page,
-             "date": f"{start}:{end}"},
+            params,
         )
         if not isinstance(data, list) or len(data) < 2 or data[1] is None:
             break

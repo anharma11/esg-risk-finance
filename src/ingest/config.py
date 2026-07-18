@@ -9,6 +9,15 @@ IDs, and IEG success-rating vocabulary.
 
 WB_API = "https://api.worldbank.org/v2"
 
+# Source IDs for WB indicators that do NOT live in source 2 (WDI).
+# WGI indicators (GE, RL, CC, PV) are only in source 3.
+INDICATOR_SOURCE: dict[str, int] = {
+    "GE.EST": 3,
+    "RL.EST": 3,
+    "CC.EST": 3,
+    "PV.EST": 3,
+}
+
 # WBG Finances One data API (replaced the retired Socrata platform).
 # Addressed with (datasetId, resourceId), paged via top/skip, max 1000 rows/page.
 FONE_API = "https://datacatalogapi.worldbank.org/dexapps/fone/api/apiservice"
